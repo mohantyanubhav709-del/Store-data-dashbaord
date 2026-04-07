@@ -28,5 +28,5 @@ st.bar_chart(region_sales)
 
 # Sales by Segment
 st.subheader("Sales by Segment")
-segment_sales = df.groupby("Segment")["Sales"].sum()
+segment_sales = df.groupby("Customer Segment")["Sales"].sum()
 st.bar_chart(segment_sales)
