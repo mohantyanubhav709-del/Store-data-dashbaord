@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("store.csv")
+df = pd.read_csv("store.csv", encoding='latin1')
 
 new_markdown_cell = {
  "cell_type": "markdown",
