@@ -1,9 +1,6 @@
-import json
+import pandas as pd
 
-notebook_path = r'C:\Users\mohan\.gemini\antigravity\scratch\data_analysis\load_store_data.ipynb'
-
-with open(notebook_path, 'r', encoding='utf-8') as f:
-    nb = json.load(f)
+df = pd.read_csv("store.csv")
 
 new_markdown_cell = {
  "cell_type": "markdown",
