@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 df = pd.read_csv("store.csv", encoding='latin1')
-st.write(df.columns)
+df.columns = df.columns.str.strip()
 import streamlit as st
 import pandas as pd
 
