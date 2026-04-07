@@ -2,46 +2,30 @@ import pandas as pd
 
 df = pd.read_csv("store.csv", encoding='latin1')
 
-new_markdown_cell = {
- "cell_type": "markdown",
- "metadata": {},
- "source": [
-  "## Data Cleaning\n",
-  "We will perform the following data cleaning steps:\n",
-  "1. Convert `Order Date` and `Ship Date` into datetime formats.\n",
-  "2. Fill missing values in `Product Base Margin` with the column average.\n",
-  "3. Drop the redundant `Row ID` column.\n",
-  "4. Drop any duplicate rows."
- ]
-}
+import streamlit as st
+import pandas as pd
 
-new_code_cell = {
- "cell_type": "code",
- "execution_count": None,
- "metadata": {},
- "outputs": [],
- "source": [
-  "# 1. Convert Dates\n",
-  "df['Order Date'] = pd.to_datetime(df['Order Date'], dayfirst=True, format='mixed')\n",
-  "df['Ship Date'] = pd.to_datetime(df['Ship Date'], dayfirst=True, format='mixed')\n",
-  "\n",
-  "# 2. Handle Missing values\n",
-  "df['Product Base Margin'] = df['Product Base Margin'].fillna(df['Product Base Margin'].mean())\n",
-  "\n",
-  "# 3. Drop Redundant col\n",
-  "if 'Row ID' in df.columns:\n",
-  "    df.drop('Row ID', axis=1, inplace=True)\n",
-  "\n",
-  "# 4. Check for duplicates\n",
-  "df.drop_duplicates(inplace=True)\n",
-  "\n",
-  "print('Data has been cleaned!')\n",
-  "display(df.info())"
- ]
-}
+# Load data
+df = pd.read_csv("store.csv", encoding='latin1')
 
-nb['cells'].append(new_markdown_cell)
-nb['cells'].append(new_code_cell)
+# Title
+st.title("📊 Store Data Dashboard")
 
-with open(notebook_path, 'w', encoding='utf-8') as f:
-    json.dump(nb, f, indent=1)
+# Key Metrics
+st.subheader("Key Metrics")
+
+col1, col2, col3 = st.columns(3)
+
+col1.metric("Total Sales", round(df["Sales"].sum(), 2))
+col2.metric("Total Profit", round(df["Profit"].sum(), 2))
+col3.metric("Total Orders", df.shape[0])
+
+# Sales by Region
+st.subheader("Sales by Region")
+region_sales = df.groupby("Region")["Sales"].sum()
+st.bar_chart(region_sales)
+
+# Sales by Segment
+st.subheader("Sales by Segment")
+segment_sales = df.groupby("Segment")["Sales"].sum()
+st.bar_chart(segment_sales)
